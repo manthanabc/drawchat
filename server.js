@@ -24,11 +24,16 @@ function newConnection(socket)
 	console.log('new connection : '+socket.id);
 
      socket.on('data',print);
-
-
-
-     function print(data){
+		  socket.on('mouse',drw);
+     function print(data)
+		 {
      console.log(data);
      socket.broadcast.emit('data',data);
      //io.sockets.emit('data',datasdggg); }}
-}}
+     }
+		 function drw(d)
+		 {
+			 console.log("drawing");
+	     socket.broadcast.emit('mouse',d);
+		 }
+}
