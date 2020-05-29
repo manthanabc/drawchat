@@ -55,11 +55,11 @@ function entered(key) {
 	if (key == 'Enter') {
 		if (c1 === 0) {
 			//name = inp.elt.value;
-		
+
 		data = {
 			name:inp.elt.value
 		};
-		} 
+		}
 		data.msg=inp.elt.value;
 		socket.emit('data', data);
 		console.log(c + ' you : ' + data.msg + '   u r name ' + data.name);
