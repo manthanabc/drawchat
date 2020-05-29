@@ -1,6 +1,7 @@
 c1 = 0;
+var c=0;
 var msg = [''];
-var name = 'UNKNOWN';
+//var name ;//= 'UNKNOWN';
 let inp;
 var mouse;
 var data = {
@@ -29,18 +30,22 @@ function setup() {
 }
 
 function todo(dat) {
-	console.log(c + ' : ' + dat.name + ' : ' + dat.msg);
-	text(c + ' : ' + dat.name + ' : ' + dat.msg, 0, c * 15);
+  //background(0);
+//	console.log(c + ' : ' + dat.name + ' : ' + dat.msg);
+	text(dat.name + ' : ' + dat.msg, 100,c*10);
 	c++;
 }
 
 function draw() {
 	fill(80, 0, 0);
-	ellipse(mouseX, mouseY, 50, 50);
+	ellipse(mouseX, mouseY, 10, 10);
 	fill(90);
 	textSize(12);
-	//  text('Georgia', 120, 300);
+  text('made by Manthan', 120, 300);
+  text(c1, 0, 0);
 	// console.log(msg +"++++"+ data.msg);
+	fill(80,0,0);
+	ellipse(mouseX, mouseY, 10,10) ;
 }
 
 function keyPressed() {
@@ -48,13 +53,14 @@ function keyPressed() {
 }
 function entered(key) {
 	if (key == 'Enter') {
-		if (c1 == 0) {
-			name = inp.elt.value;
-		}
+		if (c1 === 0) {
+			//name = inp.elt.value;
+		
 		data = {
-			msg: inp.elt.value,
-			name: name
+			name:inp.elt.value
 		};
+		} 
+		data.msg=inp.elt.value;
 		socket.emit('data', data);
 		console.log(c + ' you : ' + data.msg + '   u r name ' + data.name);
 
@@ -66,7 +72,7 @@ function entered(key) {
 }
 function changeBG() {
 	let val = random(255);
-	background(val, random(255), random(255));
+//	background(val, random(255), random(255));
 	entered('Enter');
 }
 
@@ -89,6 +95,6 @@ function mouseDragged() {
 
 function drw(mous) {
 	fill(30, 0, 0);
-	ellipse(mous.mx, mous.my, 50, 50);
+	ellipse(mous.mx, mous.my, 10, 10);
 	console.log('drawing');
 }
