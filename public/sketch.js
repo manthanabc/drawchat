@@ -12,11 +12,15 @@ var data = {
 let button;
 function setup() {
 	createCanvas(400, 400);
+	background(220);
 	// you set this to io.connect('localhost:3000')
-	socket = io.connect('https://chattest--manthan2005abc.repl.co');
+	//socket = io.connect('https://chattest--manthan2005abc.repl.co');
+	socket = io.connect('localhost:3000');
 	socket.on('data', todo);
 	socket.on('mouse', drw);
+	socket.on('clearall',clearit);
   //socket.on('clearall',clearit);
+	button = createButton('send');
 	button.position(width - 100, height - 100);
 	button.mousePressed(send);
 
@@ -28,7 +32,8 @@ function setup() {
 	button.position(width - 170, height - 60);
 	button.mousePressed(clearall);
 
-	inp = createInput('');
+	inp = createInput('send your name first');
+	inp.position(width/4,height-(height/10));
 	inp.input(myInputEvent);
 
   fill(0);

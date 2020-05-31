@@ -19,6 +19,7 @@ function newConnection(socket) {
 
 	socket.on('data', print);
 	socket.on('mouse', drw);
+	socket.on('clearall',()=>{socket.broadcast.emit('clearall')})
 	function print(data) {
 		console.log(data);
 		socket.broadcast.emit('data', data);
