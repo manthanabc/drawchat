@@ -14,8 +14,8 @@ function setup() {
 	createCanvas(400, 400);
 	background(240);
 	// you set this to io.connect('localhost:3000')
-	//socket = io.connect('https://chattest--manthan2005abc.repl.co');
-	socket = io.connect('localhost:3000');
+	socket = io.connect('https://chattest--manthan2005.repl.co');
+	//socket = io.connect('localhost:3000');
 	socket.on('data', todo);
 	socket.on('mouse', drw);
 	socket.on('clearall',clearit);
