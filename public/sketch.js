@@ -47,7 +47,7 @@ function setup() {
 
 function todo(dat)
 {
-	text("{"+dat.name + '} ' + dat.msg, 60,c*10);
+	text("["+dat.name + ']  ' + dat.msg, 60,c*10);
 	c+=2;
 }
 
@@ -93,7 +93,7 @@ function entered(key)
 
 		console.log(c + ' you : ' + data.msg + '   u r name ' + data.name);
 
-    text(" {you} "+data.msg, 200,c*10);
+    text(" [you]  "+data.msg, 200,c*10);
 
 	  c+=2;
 
