@@ -1,16 +1,18 @@
 c1 = 0;
+var check=true;
 var click=0;
 var c=0;
 var msg = [''];
-//var name ;//= 'UNKNOWN';
 let inp;
 var mouse;
 var data = {
 	msg: 'connected',
-	name: 'unknown'
+	name: 'UNKNOWN'
 };
 let button;
+
 function setup() {
+
 	createCanvas(400, 400);
 	background(240);
 	// you set this to io.connect('localhost:3000')
