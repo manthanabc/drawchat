@@ -18,6 +18,7 @@ function setup() {
 	//socket = io.connect('localhost:3000');
 	socket.on('data', todo);
 	socket.on('mouse', drw);
+  socket.on('online', upusers);
 	socket.on('clearall',clearit);
   //socket.on('clearall',clearit);
 	button = createButton('send');
@@ -149,4 +150,15 @@ function mousePressed(){
  background(230);
  click++;
  }
+}
+
+function upusers(no){
+  fill(220,220,255);
+  stroke(0);
+  rect(width-80,height-116,80,20)
+  stroke(1);
+  fill(100,100,250);
+	textSize(15);
+  text(' online '+no,width-80 ,height-100);
+  fill(0);
 }

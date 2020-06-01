@@ -1,6 +1,6 @@
 /////////testingo
 var express = require('express');
-
+var online=0;
 var app = express();
 
 var server = app.listen(3000);
@@ -15,8 +15,9 @@ var io = socket(server);
 
 io.sockets.on('connection', newConnection);
 function newConnection(socket) {
-	console.log('new connection : ' + socket.id);
-
+	console.log('new connection : ' + socket.id+'  online '+online);
+  online++;
+  io.sockets.emit('online',online);
 	socket.on('data', print);
 	socket.on('mouse', drw);
 	socket.on('clearall',()=>{socket.broadcast.emit('clearall')})
@@ -29,4 +30,17 @@ function newConnection(socket) {
 		console.log('drawing');
 		socket.broadcast.emit('mouse', d);
 	}
-}
+
+
+socket.on('disconnect', updatep) ;
+function updatep(){
+
+      console.log('disconnected now online : '+online);
+      online = online - 1;
+      io.sockets.emit('online',online);
+      }
+
+  setInterval(function() {
+    socket.emit('online', online);
+  }, 500);
+  }
