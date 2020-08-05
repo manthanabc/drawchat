@@ -4,7 +4,13 @@ var click=0;
 var c=0;
 var msg = [''];
 let inp;
-var mouse;
+var prx=0;
+var pry=0;
+var mousemap=[1,1]
+var mouse={
+	px:0,
+	py:0
+};
 var data = {
 	msg: 'connected',
 	name: 'UNKNOWN'
@@ -14,6 +20,7 @@ let button;
 function setup() {
 
 	createCanvas(400, 400);
+	createCanvas(windowWidth,windowHeight);
 	background(240);
 	// you set this to io.connect('localhost:3000')
 	//socket = io.connect('https://chattest--manthan2005.repl.co');
@@ -36,7 +43,7 @@ function setup() {
 	button.mousePressed(clearall);
 
 	inp = createInput('send your name first');
-	inp.position((width/9),height-(height/10));
+	inp.position((width/9),height-(height/10),100,100);
 	inp.input(myInputEvent);
 
   fill(0,50);
@@ -65,13 +72,15 @@ function draw()
   //stroke(200, 200, 205);
 	stroke(20, 200, 250);
 	strokeWeight(5);noFill();
-	rect(0,0,height,width);
+	rect(0,0,width,height);
 	fill(240);strokeWeight(0);
 	rect(0,height-(height/5),width,height/5);
 	strokeWeight(5);
 	fill(20, 200, 250,60);	stroke(20, 200, 250);
 	rect(0,height-(height/5),width,height/5);
 	fill(0);strokeWeight(0);stroke(0);
+	prx=mouseX;
+	pry=mouseY;
 }
 
 function keyPressed()
@@ -106,7 +115,6 @@ function entered(key)
 }
 function send() {
 	let val = random(255);
-//	background(val, random(255), random(255));
 	entered('Enter');
 }
 
@@ -122,21 +130,30 @@ function clearit() {
 }
 function mouseDragged() {
   fill(80, 0, 0);
-	ellipse(mouseX, mouseY, 10, 10);
-	fill(90);
 	mouse = {
 		mx: mouseX,
 		my: mouseY,
-		px:mx,
-		py:my
+		px:prx,
+		py:pry
 	};
-
+  strokeWeight(2);
+	stroke(255,255,0);
+	line(mouse.mx, mouse.my,mouse.px, mouse.py);
+	strokeWeight(0);
+	console.log(mouse.mx+""+mouse.my+""+mouse.px+""+mouse.py)
+	fill(90);
+	mousemap[0]=map(mouse.mx,0,width, )
 	socket.emit('mouse', mouse);
+	prx=mouse.mx;
+	pry=mouse.my;
 }
 
 function drw(mous) {
 	fill(30, 0, 0);
-	line(mous.mx, mous.my, mouse.px, mouse.py);
+	strokeWeight(1);
+	stroke(255,0,0);
+	line(mous.mx, mous.my, mous.px,mous.py);
+	strokeWeight(0);
 	console.log('drawing');
 }
 
