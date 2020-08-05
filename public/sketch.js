@@ -137,7 +137,7 @@ function mouseDragged() {
 		py:pry
 	};
   strokeWeight(2);
-	stroke(255,255,0);
+	stroke(0,255,0);
 	line(mouse.mx, mouse.my,mouse.px, mouse.py);
 	strokeWeight(0);
 	console.log(mouse.mx+""+mouse.my+""+mouse.px+""+mouse.py)
