@@ -42,7 +42,7 @@ function setup() {
 	button.position((width/1.4),height-(height/10));
 	button.mousePressed(clearall);
 
-	inp = createInput('send your name first');
+	inp = createInput('anonimus');
 	inp.position((width/9),height-(height/10),100,100);
 	inp.input(myInputEvent);
 
@@ -128,6 +128,7 @@ function clearit() {
 	c = 1;
   c1=1;
 }
+
 function mouseDragged() {
   fill(80, 0, 0);
 	mouse = {
@@ -140,19 +141,24 @@ function mouseDragged() {
 	stroke(0,255,0);
 	line(mouse.mx, mouse.my,mouse.px, mouse.py);
 	strokeWeight(0);
-	console.log(mouse.mx+""+mouse.my+""+mouse.px+""+mouse.py)
+	console.log("you drew : current:",mouse.mx+","+mouse.my+" previous:"+mouse.px+""+mouse.py)
 	fill(90);
-	mousemap[0]=map(mouse.mx,0,width, )
-	socket.emit('mouse', mouse);
 	prx=mouse.mx;
 	pry=mouse.my;
+	mousemap[0]=map(mouse.mx,0,width, )
+	mouse=normalize(mouse);
+	socket.emit('mouse', mouse);
+
 }
 
 function drw(mous) {
 	fill(30, 0, 0);
 	strokeWeight(1);
 	stroke(255,0,0);
+	mous=denormalize(mous);
 	line(mous.mx, mous.my, mous.px,mous.py);
+	console.log("someone drew :current:" , mous.mx , mous.my,"prvious :", mous.px,mous.py);
+
 	strokeWeight(0);
 	console.log('drawing');
 }
@@ -182,4 +188,30 @@ function upusers(no){
 	textSize(15);
   text(' online '+no,width-80 ,height-100);
   fill(0);
+}
+
+function normalize(mouse)
+{
+
+	var nordata =
+	{
+		mx:mouse.mx/windowWidth,
+		my:mouse.my/windowHeight,
+		px:mouse.px/windowWidth,
+		py:mouse.py/windowHeight
+	}
+	return nordata
+
+}
+
+function denormalize(data)
+{
+	var mouse=
+	{
+			mx:data.mx*windowWidth,
+			my:data.my*windowHeight,
+			px:data.px*windowWidth,
+			py:data.py*windowHeight
+	}
+	return mouse
 }
