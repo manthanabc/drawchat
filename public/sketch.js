@@ -6,6 +6,7 @@ var msg = [''];
 let inp;
 var prx=0;
 var pry=0;
+let showname=false;
 var mousemap=[1,1]
 var mouse={
 	px:0,
@@ -40,6 +41,16 @@ function setup() {
 	button.position((width/1.4),height-(height/6));
 	button.mousePressed(clearit);
 
+	checkbox = createCheckbox('label', false);
+	button.position((width/1.4),height-(height/10));
+  checkbox.changed(()=>
+	{
+		if (showname)
+		showname=false;
+		else
+		showname=true;
+	});
+
   button = createButton('clear all');
 	button.style('background-color',color(100,100,100	));
 	button.position((width/1.4),height-(height/10));
@@ -60,7 +71,7 @@ function setup() {
 
 function todo(dat)
 {
-	text("["+dat.name + ']  ' + dat.msg, 60,c*10);
+	text("["+dat.name + ']  ' + dat.msg, 60,(c*10)+20);
 	c+=2;
 }
 
@@ -106,6 +117,10 @@ function entered(key)
 		data = {
 			name:inp.elt.value
 		};
+		c+=2;
+
+		c1+=2;
+		return;
 		}
 
 		data.msg=inp.elt.value;
@@ -114,7 +129,7 @@ function entered(key)
 
 		console.log(c + ' you : ' + data.msg + '   u r name ' + data.name);
 
-    text(" [you]  "+data.msg, 200,c*10);
+    text(" [you]  "+data.msg, 200,(c*10)+20);
 
 	  c+=2;
 
@@ -156,6 +171,7 @@ function mouseDragged() {
 	pry=mouse.my;
 	mousemap[0]=map(mouse.mx,0,width, )
 	mouse=normalize(mouse);
+	mouse.name=data.name;
 	socket.emit('mouse', mouse);
 
 }
@@ -165,12 +181,21 @@ function drw(mous) {
 	fill(30, 0, 0);
 	strokeWeight(1);
 	stroke(255,0,0);
+	var name=mous.name;
 	mous=denormalize(mous);
 	line(mous.mx, mous.my, mous.px,mous.py);
 	console.log("someone drew :current:" , mous.mx , mous.my,"prvious :", mous.px,mous.py);
 
 	strokeWeight(0);
 	console.log('drawing');
+
+	//if shocheckbox is  cheacked
+	if (showname)
+	{
+		mshowname(name);
+	}
+
+
 }
 
 function clearall(){
@@ -224,4 +249,22 @@ function denormalize(data)
 			py:data.py*windowHeight
 	}
 	return mouse
+}
+
+async function mshowname(name){
+	for(var i=255;i>0;i=i-25)
+	{
+			console.log("rendring"+i);
+				fill(180);
+				rect((width-80)-10,height/1.5,100,10)
+
+				textSize(10);
+				fill(0,0,0,100);
+				strokeWeight(0);
+				stroke(80,180,100,i);
+				text(name+" is drawing",(width-80)-5,(height/1.5)+8);
+
+  }
+
+
 }

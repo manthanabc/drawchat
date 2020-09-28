@@ -27,7 +27,7 @@ function newConnection(socket) {
 		//io.sockets.emit('data',datasdggg); }}
 	}
 	function drw(d) {
-		console.log('drawing at ',d.mx,d.my);
+		console.log('drawing at ',d.mx,d.my,d.name);
 		socket.broadcast.emit('mouse', d);
 	}
 
