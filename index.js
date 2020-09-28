@@ -8,7 +8,7 @@ var server = app.listen(3000);
 app.use(express.static('public'));
 
 console.log('RUNING YOUR SERVER ...');
-
+console.log('hearing requests at localhost:3000..');
 var socket = require('socket.io');
 
 var io = socket(server);

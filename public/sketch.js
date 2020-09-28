@@ -30,15 +30,18 @@ function setup() {
   socket.on('online', upusers);
 	socket.on('clearall',clearit);
   //socket.on('clearall',clearit);
-	button = createButton('send');
-	button.position((width/1.75),height-(height/10));
-	button.mousePressed(send);
+	sent=new buttons("send",(width/1.75),height-(height/10),80,20,send);
+	//^^^ this is only for testas
+	//button = createButton('send');
+	//button.position((width/1.75),height-(height/10));
+	//button.mousePressed(send);
 
 	button = createButton('clear');
 	button.position((width/1.4),height-(height/6));
 	button.mousePressed(clearit);
 
   button = createButton('clear all');
+	button.style('background-color',color(100,100,100	));
 	button.position((width/1.4),height-(height/10));
 	button.mousePressed(clearall);
 
@@ -81,6 +84,12 @@ function draw()
 	fill(0);strokeWeight(0);stroke(0);
 	prx=mouseX;
 	pry=mouseY;
+
+
+
+	sent.update()
+
+
 }
 
 function keyPressed()
@@ -152,6 +161,7 @@ function mouseDragged() {
 }
 
 function drw(mous) {
+
 	fill(30, 0, 0);
 	strokeWeight(1);
 	stroke(255,0,0);
@@ -182,11 +192,11 @@ function mousePressed(){
 function upusers(no){
   fill(220,220,255);
   stroke(0);
-  rect(width-80,height-116,80,20)
+  rect(width-80,(height/2)-14,80,20)
   stroke(1);
   fill(100,100,250);
 	textSize(15);
-  text(' online '+no,width-80 ,height-100);
+  text(' online '+no,width-80,height/2);
   fill(0);
 }
 
