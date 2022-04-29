@@ -1,8 +1,8 @@
-///////testingo
+///////here we import modules
 var express = require('express');
 var online=0;
 var app = express();
-
+//listening to local host 3000 
 var server = app.listen(3000);
 
 app.use(express.static('public'));
@@ -12,7 +12,7 @@ console.log('hearing requests at localhost:3000..');
 var socket = require('socket.io');
 
 var io = socket(server);
-
+//this tells it that go to function new connection on new connection 
 io.sockets.on('connection', newConnection);
 function newConnection(socket) {
 	console.log('new connection : ' + socket.id+'  online '+online);
