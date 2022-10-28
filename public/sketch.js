@@ -22,7 +22,7 @@ function setup() {
 
 	createCanvas(400, 400);
 	createCanvas(windowWidth,windowHeight);
-	background(240);
+	//background(240);
 	// you set this to io.connect('localhost:3000')
 	//socket = io.connect('https://chattest--manthan2005.repl.co');
 	socket = io.connect('localhost:3000');
@@ -77,7 +77,7 @@ function todo(dat)
 
 function draw()
 {
-  fill(0);
+  	fill(0);
 	textSize(15);
 	stroke(200, 200, 205);
 	fill(200, 200, 205);
@@ -148,7 +148,7 @@ function myInputEvent() {
 }
 
 function clearit() {
-  background(230);
+  // background(230);
 	c = 1;
   c1=1;
 }
@@ -209,7 +209,7 @@ socket.emit('clearall',cn);
 function mousePressed(){
  if(click==0)
  {
- background(230);
+ //background(230);
  click++;
  }
 }
