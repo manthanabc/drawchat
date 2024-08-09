@@ -2,7 +2,7 @@ let express = require('express');
 let online=0;
 let app = express();
 
-let server = app.listen(process.env.PORT || 3000);
+let server = app.listen(process.env.PORT || 80);
 
 app.use(express.static('public'));
 

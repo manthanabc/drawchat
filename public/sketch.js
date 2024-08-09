@@ -20,49 +20,51 @@ let button;
 
 function setup() {
 
-	createCanvas(400, 400);
-	createCanvas(windowWidth,windowHeight);
+	// createCanvas(400, 400);
+	createCanvas(min(windowWidth, 760),min(windowHeight, 1080));
 	//background(240);
 	// you set this to io.connect('localhost:3000')
 	//socket = io.connect('https://chattest--manthan2005.repl.co');
-	socket = io.connect('localhost:3000');
+	socket = io.connect('http://16.171.198.34:80');
 	socket.on('data', todo);
 	socket.on('mouse', drw);
   socket.on('online', upusers);
 	socket.on('clearall',clearit);
   //socket.on('clearall',clearit);
-	sent=new buttons("send",(width/1.75),height-(height/10),80,20,send);
+	// sent=new buttons("send",(width/1.75),height-(height/10),80,20,send);
 	//^^^ this is only for testas
-	//button = createButton('send');
-	//button.position((width/1.75),height-(height/10));
-	//button.mousePressed(send);
+	button2 = createButton('send');
+	button2.position((width/1.4) - 100,height-(height/10));
+	button2.mousePressed(send);
 
 	button = createButton('clear');
 	button.position((width/1.4),height-(height/6));
 	button.mousePressed(clearit);
 
-	checkbox = createCheckbox('label', false);
+	// checkbox = createCheckbox('label', false);
 	button.position((width/1.4),height-(height/10));
-  checkbox.changed(()=>
-	{
-		if (showname)
-		showname=false;
-		else
-		showname=true;
-	});
+ //  checkbox.changed(()=>
+	// {
+	// 	if (showname)
+	// 	showname=false;
+	// 	else
+	// 	showname=true;
+	// });
 
   button = createButton('clear all');
-	button.style('background-color',color(100,100,100	));
+	// button.style('background-color',color(100,100,100	));
 	button.position((width/1.4),height-(height/10));
 	button.mousePressed(clearall);
 
 	inp = createInput('anonimus');
+	inp.elt.className="seloctor"
+  console.log(inp)
 	inp.position((width/9),height-(height/10),100,100);
 	inp.input(myInputEvent);
 
   fill(0,50);
 	textSize(22);
-  text(' Draw here ', 200, 200);
+  text(' Draw here ',width/2 -100, height/2);
 
 	fill(20, 200, 250,60);	stroke(20, 200, 250);
 	rect(0,height-(height/5),width,height/5);
@@ -81,8 +83,8 @@ function draw()
 	textSize(15);
 	stroke(200, 200, 205);
 	fill(200, 200, 205);
-	//strokeWeight(0.5);
-  text('made by Manthan', 120, 300);
+	// strokeWeight(0.5);
+  // text('made by Manthan', 120, 300);
   //stroke(200, 200, 205);
 	stroke(20, 200, 250);
 	strokeWeight(5);noFill();
@@ -98,7 +100,7 @@ function draw()
 
 
 
-	sent.update()
+	// SENT.update()
 
 
 }
@@ -199,7 +201,7 @@ function drw(mous) {
 }
 
 function clearall(){
-background(230);
+background(255);
 c1=1;
 c=1;
 var cn=0;
