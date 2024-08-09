@@ -267,8 +267,4 @@ async function mshowname(name){
 				text(name+" is drawing",(width-80)-5,(height/1.5)+8);
 
   }
-
-	
-
-
 }

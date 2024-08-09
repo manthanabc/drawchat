@@ -11,7 +11,7 @@ console.log('hearing requests at localhost:3000..');
 var socket = require('socket.io');
 
 var io = socket(server);
-//this tells it that go to function new connection on new connection 
+
 io.sockets.on('connection', newConnection);
 function newConnection(socket) {
 	console.log('new connection : ' + socket.id+'  online '+ ++online);
@@ -22,7 +22,6 @@ function newConnection(socket) {
 	socket.on('data', (data) => {
 		console.log(data);
 		socket.broadcast.emit('data', data);
-		//io.sockets.emit('data',datasdggg); }}
 	});
 
 	socket.on('mouse', (d) => {
@@ -35,7 +34,7 @@ function newConnection(socket) {
       		io.sockets.emit('online',online);
       	});
 
-  	setInterval(() => {
-    		socket.emit('online', online);
-  	}, 500);
+	setInterval(() => {
+  		socket.emit('online', online);
+	}, 500);
 }
