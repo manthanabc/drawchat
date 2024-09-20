@@ -20,39 +20,37 @@ let button;
 
 function setup() {
 
-    createCanvas(min(windowWidth, 760), min(windowHeight, 1080));
+    let canvas = createCanvas(min(windowWidth, 784), min(windowHeight, 1000));
+    canvas.parent('main-section');
+    canvas.elt.style.position = "absolute";
+    canvas.elt.style.top = "12px";
+    
     socket = io.connect('/');
     socket.on('data', todo);
     socket.on('mouse', drw);
     socket.on('online', upusers);
     socket.on('clearall', clearit);
 
-    sendButton = createButton('send');
-    sendButton.position((width / 1.4) - 100, height - (height / 10));
-    sendButton.mousePressed(send);
-
+    // sendButton = createButton('send');
+    // sendButton.position((width / 1.4) - 100, height - (height / 10));
+    // sendButton.mousePressed(send);
 		
-    button = createButton('clear');
-    button.position((width / 1.4), height - (height / 6));
-    button.mousePressed(clearit);
+    // button = createButton('clear');
+    // button.position((width / 1.4), height - (height / 6));
+    // button.mousePressed(clearit);
 
-    button.position((width / 1.4), height - (height / 10));
-    button = createButton('clear all');
-    button.position((width / 1.4), height - (height / 10));
-    button.mousePressed(clearall);
+    // button.position((width / 1.4), height - (height / 10));
+    // button = createButton('clear all');
+    // button.position((width / 1.4), height - (height / 10));
+    // button.mousePressed(clearall);
 
-    inp = createInput('anonimus');
-    inp.elt.className = "selector"
-    inp.position((width / 9), height - (height / 10), 100, 100);
+    // inp = createInput('anonimus');
+    // inp.elt.className = "selector"
+    // inp.position((width / 9), height - (height / 10), 100, 100);
 
     fill(0, 50);
     textSize(22);
     text(' Draw here ', width / 2 - 100, height / 2);
-
-    fill(20, 200, 250, 60);
-    stroke(20, 200, 250);
-    rect(0, height - (height / 5), width, height / 5);
-
 }
 
 function todo(dat) {
@@ -71,14 +69,13 @@ function draw() {
     stroke(20, 200, 250);
     strokeWeight(5);
     noFill();
-    rect(0, 0, width, height);
     fill(240);
     strokeWeight(0);
-    rect(0, height - (height / 5), width, height / 5);
+    // rect(0, height - (height / 5), width, height / 5);
     strokeWeight(5);
     fill(20, 200, 250, 60);
     stroke(20, 200, 250);
-    rect(0, height - (height / 5), width, height / 5);
+    // rect(0, height - (height / 5), width, height / 5);
     fill(0);
     strokeWeight(0);
     stroke(0);

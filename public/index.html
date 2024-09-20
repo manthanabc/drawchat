@@ -12,13 +12,22 @@
   <style> 
   body { padding: 0; margin: 0; } 
 
+  .timestamp {
+    font-size: 0.8rem; /* Smaller font size */
+    color: #888; /* Gray color for the timestamp */
+    margin-top: 5px; /* Spacing above timestamp */
+    align-self: flex-start; /* Align timestamp to the right */
+    display: block;
+  }
+
   body .selector {
-    border-radius: 100px;
+    border-radius: 10px;
     font-size: 20px;
     padding: 10px;
     margin: 10px;
     color: #505050;
     padding-left: 20px;
+    border: solid;
   }
 
   .input-container {
@@ -26,7 +35,6 @@
     grid-template-columns: 1fr auto; 
     gap: 10px;
     width: 100%;
-    background: #f0f0f0;
   }
 
   .send-button {
@@ -41,13 +49,12 @@
     margin: 10px;
     width: 50px;
     background: white;
-    border-radius: 50px;
+    border-radius: 10px;
   }
 
   .send-button svg {
-    fill: currentColor; /* Use the current text color */
-    width: 20px; /* Adjust icon size */
-    height: 20px; /* Adjust icon size */
+    fill: currentColor;
+    width: 20px;
   }  
   
   body button {
@@ -60,12 +67,55 @@
     margin-left: auto;
     margin-right: auto;
   }
+  .message-container {
+    top: 0px;
+    font-size: 1.5rem;
+    overflow: scroll;
+    height: 100%;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10 20;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .message {
+    color: #505050;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 5px 0;
+    max-width: 80%;
+    word-wrap: break-word;
+    padding: 10px;
+  }
+
+  .received {
+    background-color: #e1f5fe;
+    align-self: flex-start;
+    text-align: start;
+  }
+
+  .sent {
+    background-color: #c8e6c9;
+    align-self: flex-end;
+    text-align: end;
+  }  
   </style>
 </head>
 
 <body>
-<div class="container">
-  <div style="width: 800px; height: 1000px; background: black"></div> 
+<div class="container" style="border: solid 4px;">
+  <div style="height: 1000px; border: solid ; margin: 5px;" id="main-section">
+    <div class="message-container">
+      <ul id="messages">
+        <li class="message received">Another message from user      <span class="timestamp">10:03 AM</span></li>
+        <li class="message sent">Your response here      <span class="timestamp">10:03 AM</span></li>
+      </ul>    
+    </div>
+  </div> 
   <div class="input-container">
     <input class="selector" style="width:100%" placeholder="Type your message...">
     <button class="send-button">
