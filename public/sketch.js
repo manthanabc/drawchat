@@ -20,12 +20,8 @@ let button;
 
 function setup() {
 
-	// createCanvas(400, 400);
 	createCanvas(min(windowWidth, 760),min(windowHeight, 1080));
-	//background(240);
-	// you set this to io.connect('localhost:3000')
-	//socket = io.connect('https://chattest--manthan2005.repl.co');
-	socket = io.connect('http://16.171.198.34:80');
+	socket = io.connect('http://13.51.195.127:80');
 	socket.on('data', todo);
 	socket.on('mouse', drw);
   socket.on('online', upusers);
@@ -57,7 +53,7 @@ function setup() {
 	button.mousePressed(clearall);
 
 	inp = createInput('anonimus');
-	inp.elt.className="seloctor"
+	inp.elt.className="selector"
   console.log(inp)
 	inp.position((width/9),height-(height/10),100,100);
 	inp.input(myInputEvent);
