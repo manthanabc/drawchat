@@ -11,26 +11,70 @@
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
   <style> 
   body { padding: 0; margin: 0; } 
+
   body .selector {
-    width: 300px;
     border-radius: 100px;
-    height: 40px;
     font-size: 20px;
     padding: 10px;
-    color: #ae5d5d;
-    border-color: pink; 
-    border-top: aqua;
-    border-left: aliceblue;
+    margin: 10px;
+    color: #505050;
+    padding-left: 20px;
   }
+
+  .input-container {
+    display: grid;
+    grid-template-columns: 1fr auto; 
+    gap: 10px;
+    width: 100%;
+    background: #f0f0f0;
+  }
+
+  .send-button {
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border: solid #707070;
+    height: 50px;
+    margin: 10px;
+    width: 50px;
+    background: white;
+    border-radius: 50px;
+  }
+
+  .send-button svg {
+    fill: currentColor; /* Use the current text color */
+    width: 20px; /* Adjust icon size */
+    height: 20px; /* Adjust icon size */
+  }  
+  
   body button {
     border-radius: 20px;
     padding: 10px;
   }
+  
+  .container {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
   </style>
-
 </head>
 
 <body>
-
+<div class="container">
+  <div style="width: 800px; height: 1000px; background: black"></div> 
+  <div class="input-container">
+    <input class="selector" style="width:100%" placeholder="Type your message...">
+    <button class="send-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+      </svg>
+    </button>
+  </div>
+</div>
 </body>
+
 </html>

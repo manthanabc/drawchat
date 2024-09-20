@@ -164,8 +164,6 @@ function drw(mous) {
     if (showname) {
         mshowname(name);
     }
-
-
 }
 
 function clearall() {
