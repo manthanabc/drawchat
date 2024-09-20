@@ -1,13 +1,15 @@
-let messageNum = 0;
+let messageNum = 1;
 let check = true;
 let click = 0;
-let c = 0;
+let c = 1;
 let msg = [''];
 let inp;
 let prx = 0;
 let pry = 0;
 let showname = false;
 let mousemap = [1, 1]
+let messageContainer;
+
 let mouse = {
     px: 0,
     py: 0
@@ -24,38 +26,49 @@ function setup() {
     canvas.parent('main-section');
     canvas.elt.style.position = "absolute";
     canvas.elt.style.top = "12px";
+
+    messageContainer = document.getElementById('messages');
+    console.log(messageContainer)
     
     socket = io.connect('/');
-    socket.on('data', todo);
+    socket.on('data', processinput);
     socket.on('mouse', drw);
     socket.on('online', upusers);
     socket.on('clearall', clearit);
 
-    // sendButton = createButton('send');
-    // sendButton.position((width / 1.4) - 100, height - (height / 10));
-    // sendButton.mousePressed(send);
-		
-    // button = createButton('clear');
-    // button.position((width / 1.4), height - (height / 6));
-    // button.mousePressed(clearit);
+    sendButton =  document.getElementById('send');
+    sendButton.addEventListener('click', send);
 
-    // button.position((width / 1.4), height - (height / 10));
-    // button = createButton('clear all');
-    // button.position((width / 1.4), height - (height / 10));
-    // button.mousePressed(clearall);
-
-    // inp = createInput('anonimus');
-    // inp.elt.className = "selector"
-    // inp.position((width / 9), height - (height / 10), 100, 100);
+    inp = document.getElementById('input');
 
     fill(0, 50);
     textSize(22);
     text(' Draw here ', width / 2 - 100, height / 2);
+
+    data.name=prompt("Enter a name")
 }
 
-function todo(dat) {
-    text("[" + dat.name + ']  ' + dat.msg, 60, (c * 10) + 20);
-    c += 2;
+function processinput(dat) {
+      isSent = dat.name == data.name;
+      const newMessage = document.createElement('li');
+      newMessage.classList.add('message', isSent ? 'sent' : 'received');
+      newMessage.innerHTML = `
+        ${escapeHTML(dat.msg)}
+        <span class="timestamp">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+      `;
+
+      messageContainer.appendChild(newMessage);
+      messageContainer.scrollTop = messageContainer.scrollHeight;    
+}
+
+function escapeHTML (unsafe_str) {
+    return unsafe_str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;')
+      .replace(/\'/g, '&#39;')
+      .replace(/\//g, '&#x2F;')
 }
 
 function draw() {
@@ -91,7 +104,7 @@ function entered(key) {
     if (key == 'Enter') {
         if (messageNum === 0) {
             data = {
-                name: inp.elt.value
+                name: inp.value
             };
             c += 2;
 
@@ -99,10 +112,11 @@ function entered(key) {
             return;
         }
 
-        data.msg = inp.elt.value;
+        data.msg = inp.value;
 
+
+        processinput(data)
         socket.emit('data', data);
-        text(" [you]  " + data.msg, 200, (c * 10) + 20);
 
         c += 2;
 
