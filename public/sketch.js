@@ -56,8 +56,8 @@ function setup() {
     }
 }
 
-function processinput(dat) {
-      isSent = dat.name == data.name;
+function processinput(dat, isSent=false) {
+      // isSent = dat.name == data.name;
       const newMessage = document.createElement('li');
       newMessage.classList.add('message', isSent ? 'sent' : 'received');
       newMessage.innerHTML = `
@@ -124,13 +124,15 @@ function entered(key) {
         data.msg = inp.value;
 
 
-        processinput(data)
+        processinput(data, true)
         socket.emit('data', data);
 
         c += 2;
 
         messageNum += 2;
         msg = data.msg;
+
+        inp.value = "";
     }
 }
 
