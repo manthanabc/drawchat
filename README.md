@@ -2,8 +2,10 @@
 
 A real-time collaborative drawing and chat application built with **p5.js**, **Express.js**, and **Socket.io**. This project allows multiple users to draw on a shared canvas and chat with each other in real time.
 
-<img src=https://github.com/user-attachments/assets/a14df377-d16b-4f39-8b6d-8c43e2b7e5c2 width="300">
-<img src=https://github.com/user-attachments/assets/2901fa23-9a8f-4f35-a5fa-cc954000d445 width="300">
+<img src=https://github.com/user-attachments/assets/fceaec25-b373-4223-8202-0e2ee1bb6ea5 width="300">
+<img src=https://github.com/user-attachments/assets/dc6b5b98-f123-4d6d-bcd7-a0d3075e37d1 width="300">
+
+
 
 ## Features
 
