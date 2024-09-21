@@ -43,9 +43,12 @@ function setup() {
 
     fill(0, 50);
     textSize(22);
-    text(' Draw here ', width / 2 - 100, height / 2);
 
-    data.name=prompt("Enter a name")
+    data.name = localStorage.getItem('name');
+    if(!data.name) {
+        data.name=prompt("Enter a name")
+        localStorage.setItem('name', data.name)
+    }
 }
 
 function processinput(dat) {
