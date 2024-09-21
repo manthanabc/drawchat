@@ -56,7 +56,7 @@ function processinput(dat) {
       const newMessage = document.createElement('li');
       newMessage.classList.add('message', isSent ? 'sent' : 'received');
       newMessage.innerHTML = `
-        <span class="message-username">${dat.name}</span>
+        <span class="message-username">${escapeHTML(dat.name)}</span>
         ${escapeHTML(dat.msg)}
         <span class="timestamp">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
       `;
