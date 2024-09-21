@@ -177,10 +177,7 @@ function drw(mous) {
     var name = mous.name;
     mous = denormalize(mous);
     line(mous.mx, mous.my, mous.px, mous.py);
-    console.log("someone drew :current:", mous.mx, mous.my, "prvious :", mous.px, mous.py);
-
     strokeWeight(0);
-    console.log('drawing');
 
     //if shocheckbox is  cheacked
     if (showname) {
