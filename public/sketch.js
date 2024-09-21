@@ -22,7 +22,12 @@ let button;
 
 function setup() {
 
-    let canvas = createCanvas(min(windowWidth, 784), min(windowHeight, 1000));
+    let mainSection = document.getElementById('main-section');
+    console.log(mainSection)
+    let width = mainSection.offsetWidth;
+    let height =mainSection.offsetHeight;
+
+    let canvas = createCanvas(width, height);
     canvas.parent('main-section');
     canvas.elt.style.position = "absolute";
     canvas.elt.style.top = "12px";
