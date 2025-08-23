@@ -1,141 +1,136 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<title>ChatWithDrawBYManthan</title>
-<link rel="icon" href="favicon.ico?" type="x-icon">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DrawChat — realtime drawing + chat</title>
+  <link rel="icon" href="favicon.ico" />
 
-  <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
-  <script language="javascript" type="text/javascript" src="libraries/elements.js"></script>
-  <script language="javascript" type="text/javascript" src="sketch.js"></script>
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
-  <style> 
-  body { padding: 0; margin: 0; } 
+  <style>
+    :root{
+      --bg:#2a1810;
+      --panel:#3d2817;
+      --accent:#ff6b35;
+      --accent-2:#f7931e;
+      --text:#f4e4bc;
+      --muted:#d4af37;
+      --border:#8b4513;
+      --glass: rgba(212, 175, 55, 0.1);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;height:100vh;background:radial-gradient(circle at 30% 30%, #4a2c17 0%, var(--bg) 100%);font-family:'Courier New',monospace;color:var(--text);overflow:hidden}
+    .app{display:flex;height:100vh;gap:12px;padding:12px}
 
-  .timestamp {
-    font-size: 0.8rem;
-    color: #888; 
-    margin-top: 5px; 
-    align-self: flex-start; 
-    display: block;
-  }
+    /* chat panel */
+    .chat-panel{width:320px;background:var(--panel);border:2px solid var(--border);border-radius:8px;padding:12px;display:flex;flex-direction:column;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.5)}
+    .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:8px}
+    .brand{font-weight:700;letter-spacing:1px;color:var(--accent);text-shadow:1px 1px 2px rgba(0,0,0,0.5)}
+    .controls{display:flex;gap:6px;align-items:center}
+    .btn{background:var(--glass);border:1px solid var(--border);padding:6px 10px;border-radius:4px;color:var(--text);cursor:pointer;font-family:inherit;font-size:12px;text-transform:uppercase;transition:all 0.2s}
+    .btn:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+    .btn.primary{background:linear-gradient(45deg,var(--accent),var(--accent-2));color:var(--bg);border:1px solid var(--accent);font-weight:bold}
+    .btn.primary:hover{background:linear-gradient(45deg,var(--accent-2),var(--accent))}
+    .sessionStatus{font-size:11px;color:var(--muted);margin-left:8px}
 
-  .message-username {
-    font-size: 0.8rem; 
-    color: #888;
-    align-self: flex-start; 
-    display: block;
-    font-weight: bold;
-  }
+    .messages{flex:1;overflow:auto;padding:6px;display:flex;flex-direction:column;gap:6px;background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:4px;margin:8px 0}
+    .message{display:flex;gap:8px;align-items:flex-start;max-width:100%}
+    .avatar{width:32px;height:32px;border-radius:4px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--bg);font-size:12px;border:1px solid var(--border)}
+    .bubble{padding:8px 10px;border-radius:4px;background:var(--glass);color:var(--text);border:1px solid var(--border);position:relative}
+    .bubble .meta{font-size:10px;color:var(--muted);margin-top:4px}
+    .bubble.mine{background:linear-gradient(135deg,rgba(255,107,53,0.2),rgba(247,147,30,0.2));border-color:var(--accent)}
 
-  body .selector {
-    border-radius: 10px;
-    font-size: 20px;
-    padding: 10px;
-    margin: 10px;
-    color: #505050;
-    padding-left: 20px;
-    border: transparent;
-    background: #202020;
-  }
+    .footer{display:flex;gap:6px;padding-top:8px;border-top:1px solid var(--border)}
+    input[type=text], input[type=search]{flex:1;padding:8px;border-radius:4px;border:1px solid var(--border);background:var(--glass);color:var(--text);font-family:inherit}
+    input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(255,107,53,0.3)}
+    .small{width:100px}
 
-  .input-container {
-    display: grid;
-    grid-template-columns: 1fr auto; 
-    gap: 10px;
-    width: 100%;
-    background: black;
-  }
+    /* canvas area */
+    .canvas-area{flex:1;display:flex;flex-direction:column}
+    .canvas-wrap{flex:1;background:var(--panel);border:2px solid var(--border);border-radius:8px;padding:8px;position:relative;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,0.3)}
+    #canvas-area{position:absolute;inset:8px;border-radius:4px;background:#fff;border:1px solid var(--border)}
+    .toolbar{display:flex;gap:6px;align-items:center;margin-bottom:8px;padding:8px;background:var(--glass);border:1px solid var(--border);border-radius:4px;flex-wrap:wrap}
+    .tool-group{display:flex;gap:4px;align-items:center;padding:4px;border-right:1px solid var(--border)}
+    .tool-group:last-child{border-right:none}
+    .tool-btn{width:36px;height:36px;border:1px solid var(--border);background:var(--glass);border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;color:var(--text)}
+    .tool-btn:hover,.tool-btn.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+    .color-picker{width:32px;height:32px;border:1px solid var(--border);border-radius:4px;cursor:pointer}
+    .voice-status{display:flex;align-items:center;gap:6px;padding:6px;background:var(--glass);border:1px solid var(--border);border-radius:4px}
+    .voice-indicator{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+    .voice-indicator.active{background:var(--accent);animation:pulse 1s infinite}
 
-  .send-button {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    height: 50px;
-    margin: 10px;
-    width: 50px;
-    background: #104210;
-    border-radius: 10px;
-    border: transparent;
-  }
-
-  .send-button svg {
-    fill: currentColor;
-    width: 20px;
-  }  
-  
-  body button {
-    border-radius: 20px;
-    padding: 10px;
-  }
-  
-  .container {
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background: #101010;
-  }
-  
-  .message-container {
-    top: 0px;
-    font-size: 1.5rem;
-    overflow: scroll;
-    height: 100%;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 10 20;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .message {
-    color: #505050;
-    padding: 10px;
-    border-radius: 8px;
-    margin: 5px 0;
-    max-width: 80%;
-    word-wrap: break-word;
-    padding: 10px;
-  }
-
-  .received {
-    background-color: #e1f5fe;
-    align-self: flex-start;
-    text-align: start;
-  }
-
-  .sent {
-    background-color: #c8e6c9;
-    align-self: flex-end;
-    text-align: end;
-  }  
+    /* small responsive */
+    @media (max-width:900px){
+      .app{flex-direction:column;gap:8px;padding:8px}
+      .chat-panel{width:100%;height:250px;order:2}
+      .canvas-area{flex:1;min-height:300px;order:1}
+      .toolbar{justify-content:center}
+      .tool-group{border-right:none;border-bottom:1px solid var(--border);padding-bottom:4px;margin-bottom:4px}
+      .tool-group:last-child{border-bottom:none;margin-bottom:0}
+    }
+    @media (max-width:600px){
+      .chat-panel{height:200px}
+      .toolbar{flex-direction:column;align-items:stretch}
+      .tool-group{justify-content:center}
+    }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
   </style>
+
+  <script src="libraries/p5.min.js"></script>
+  <script src="libraries/elements.js"></script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+  <script src="sketch.js" defer></script>
 </head>
 
 <body>
-<div class="container" style="border: solid 4px;">
-  <div style=" border: solid ; flex: 1" id="main-section">
-    <div class="message-container">
-      <ul id="messages"> </ul>    
+  <div class="app">
+    <aside class="chat-panel">
+      <div class="header">
+        <div class="brand">DrawChat</div>
+      </div>
+
+      <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap">
+        <input id="sessionCodeInput" type="text" placeholder="Session code" class="small" />
+        <button id="joinSession" class="btn">Join</button>
+        <button id="pairRandom" class="btn">Pair</button>
+        <button id="voiceCall" class="btn">📞 Call</button>
+        <div id="sessionStatus" class="sessionStatus">Not in session</div>
+      </div>
+
+      <div class="messages" id="messages"></div>
+
+      <div class="footer">
+        <input id="input" type="text" placeholder="Type a message..." />
+        <button id="send" class="btn primary">Send</button>
+      </div>
+    </aside>
+
+    <div class="canvas-area">
+      <div class="toolbar">
+        <div class="tool-group">
+          <button id="toolPen" class="tool-btn active" title="Pen">✏️</button>
+          <button id="toolBucket" class="tool-btn" title="Bucket Fill">🪣</button>
+          <input id="colorPicker" type="color" value="#000000" class="color-picker" title="Color" />
+        </div>
+        <div class="tool-group">
+          <button id="toolUndo" class="tool-btn" title="Undo">↶</button>
+          <button id="toolClear" class="tool-btn" title="Clear All">🗑️</button>
+        </div>
+        <div class="tool-group">
+          <div class="voice-status">
+            <div id="voiceIndicator" class="voice-indicator"></div>
+            <span id="voiceStatus" style="font-size:11px">Voice: Off</span>
+          </div>
+        </div>
+        <div style="flex:1"></div>
+        <div id="userLabel" style="color:var(--muted);font-size:12px"></div>
+        <div id="onlineCount" style="color:var(--muted);font-size:12px"></div>
+      </div>
+
+      <div class="canvas-wrap">
+        <div id="canvas-area"></div>
+      </div>
     </div>
-  </div> 
-  <div class="input-container">
-    <input id="input" class="selector" style="width:100%" placeholder="Type your message...">
-    <button class="send-button" id="send">
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
-        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
-      </svg>
-    </button>
   </div>
-</div>
 </body>
 
 </html>
