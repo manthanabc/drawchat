@@ -35,7 +35,7 @@ class buttons
 		if(millis() > this.startPressed+timeout)
 			pressed = false;
 
-		console.log(pressed);
+		// console.log(pressed);
 
 		if ((mouseX > this.x && mouseY > this.y)&&(mouseX < this.x+this.sizeX &&mouseY < this.y+this.sizeY)){
 //this checks if mouse is over this buttons
@@ -61,7 +61,7 @@ class buttons
 		stroke(160);
 		strokeWeight(2)
 		fill(this.color.r,this.color.g,this.color.b,this.color.a);
-		console.log("drew the rectangle")
+		// console.log("drew the rectangle")
 		rect((width/1.75),height-(height/10),80,20);
 		//for(var i =1;i>0;i++){}
 		textSize(17);
